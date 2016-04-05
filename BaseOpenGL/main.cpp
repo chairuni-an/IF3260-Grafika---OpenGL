@@ -29,33 +29,41 @@ void render(void){
 }
 
 int main(int argc, const char * argv[]) {
-    GLFWwindow *win;
+    int choice;
+    std::cout<<"Please Choose The Program You Want"<<std::endl;
+    std::cout<<"1. Hello Triangle"<<std::endl;
+    std::cin>>choice;
     
-    if(!glfwInit()){
-        return -1;
-    }
+    if(choice == 1){
     
-    win = glfwCreateWindow(640, 480, "OpenGL Base Project", NULL, NULL);
-    if(!win){
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
+        GLFWwindow *win;
     
-    if(!glewInit()){
-        return -1;
-    }
+        if(!glfwInit()){
+            return -1;
+        }
     
-    glfwMakeContextCurrent(win);
+        win = glfwCreateWindow(640, 480, "OpenGL Base Project", NULL, NULL);
+        if(!win){
+            glfwTerminate();
+            exit(EXIT_FAILURE);
+        }
     
-    while(!glfwWindowShouldClose(win)){
-        render();
+        if(!glewInit()){
+            return -1;
+        }
+    
+        glfwMakeContextCurrent(win);
+    
+        while(!glfwWindowShouldClose(win)){
+            render();
         
-        glfwSwapBuffers(win);
-        glfwPollEvents();
-    }
+            glfwSwapBuffers(win);
+            glfwPollEvents();
+        }
     
-    glfwTerminate();
-    exit(EXIT_SUCCESS);
+        glfwTerminate();
+        exit(EXIT_SUCCESS);
+    }
     
     return 0;
 }
