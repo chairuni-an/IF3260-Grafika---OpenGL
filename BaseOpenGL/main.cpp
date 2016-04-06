@@ -163,11 +163,11 @@ void serpienski_triangle_points(int num_iterative){
 }
 
 /* tugas 2c */
-void serpienski_triangle_recursive(GLfloat * a, GLfloat * b, GLfloat * c, GLfloat * color, int num_iterative){
+void serpienski_triangle_recursive(GLfloat * a, GLfloat * b, GLfloat * c, GLfloat * color, int num_iterative, int count){
     
     
-    if(num_iterative > 0){
-        num_iterative--;
+    if(count < num_iterative){
+        count++;
         glBegin(GL_TRIANGLES);
         {
             glColor4f(color[0], color[1], color[2], color[3]);
@@ -178,17 +178,21 @@ void serpienski_triangle_recursive(GLfloat * a, GLfloat * b, GLfloat * c, GLfloa
         }
         glEnd();
         
-        if (num_iterative > 0){
+        if (count < num_iterative){
         
             GLfloat vertAB[4] = { (GLfloat) (a[0]+b[0])/2, (GLfloat) (a[1]+b[1])/2, a[2], a[3]};
             GLfloat vertBC[4] = { (GLfloat) (b[0]+c[0])/2, (GLfloat) (b[1]+c[1])/2, b[2], b[3]};
             GLfloat vertCA[4] = { (GLfloat) (c[0]+a[0])/2, (GLfloat) (c[1]+a[1])/2, c[2], c[3]};
             
-            GLfloat shade[4] = { (GLfloat) (color[0] - 0.1), (GLfloat) (color[1] - 0.1), (GLfloat) (color[2] - 0.1), 1.0};
+            GLfloat shade[4] = {
+                (GLfloat) (color[0] - (GLfloat) 1/num_iterative),
+                (GLfloat) (color[1] - (GLfloat) 1/num_iterative),
+                (GLfloat) (color[2] - (GLfloat) 1/num_iterative),
+                1.0};
             
-            serpienski_triangle_recursive(a, vertAB, vertCA, shade, num_iterative);
-            serpienski_triangle_recursive(vertAB, b, vertBC, shade, num_iterative);
-            serpienski_triangle_recursive(vertCA, vertBC, c, shade, num_iterative);
+            serpienski_triangle_recursive(a, vertAB, vertCA, shade, num_iterative, count);
+            serpienski_triangle_recursive(vertAB, b, vertBC, shade, num_iterative, count);
+            serpienski_triangle_recursive(vertCA, vertBC, c, shade, num_iterative, count);
             
         }
         
@@ -209,7 +213,7 @@ void serpienski_triangle(int num_iterative){
     /* Triangle color */
     GLfloat shade[4]       = { 1, 1, 1, 1.0};
     
-    serpienski_triangle_recursive(vertA, vertB, vertC, shade, num_iterative);
+    serpienski_triangle_recursive(vertA, vertB, vertC, shade, num_iterative, 0);
 }
 
 
